@@ -51,103 +51,24 @@ X = df_historical[["day"]]  # Features (days)
 y = df_historical["cases"]  # Target (cases)
 
 # Split into training and testing sets
-X_train, X_
-
-
-# Generate random historical data
-np.random.seed(42)
-historical_cases = np.random.randint(30000, 70000, size=30)  # Last 30 days cases
-historical_deaths = np.random.randint(500, 2000, size=30)
-
-df_historical = pd.DataFrame({"cases": historical_cases, "deaths": historical_deaths})
-df_historical["day"] = range(1, 31)
-
-print(df_historical.head())
-
-# Train an SVM model
-X = df_historical[["day"]]
-y = df_historical["cases"]
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-model = SVR(kernel='linear')
+# Step 6: Initialize and train Support Vector Regression (SVR) model
+model = SVR(kernel='rbf')  # Radial basis function kernel for non-linear regression
 model.fit(X_train, y_train)
 
-# Predict next day's cases
-next_day = np.array([[31]])
+# Step 7: Predict next day's cases using the trained SVR model
+next_day = np.array([[31]])  # Predict for day 31
 predicted_cases = model.predict(next_day)
 print(f"Predicted cases for Day 31: {int(predicted_cases[0])}")
 
-# Create a bar plot
-labels = ["Total Cases", "Active Cases", "Recovered", "Deaths"]
-values = [data["cases"], data["active"], data["recovered"], data["deaths"]]
-
-plt.figure(figsize=(8, 5))
-plt.bar(labels, values, color=['blue', 'orange', 'green', 'red'])
-plt.xlabel("Category")
-plt.ylabel("Count")
-plt.title("COVID-19 Data for JAPAN")
-plt.show()
-
-# Streamlit App
+# Step 8: Streamlit UI for user interaction
 st.title("COVID-19 Cases Prediction in JAPAN")
 st.write("Predicting COVID-19 cases for the next day based on historical data.")
 
-# User Input
+# User Input: Day number for prediction
 day_input = st.number_input("Enter day number (e.g., 31 for prediction)", min_value=1, max_value=100)
 
 if st.button("Predict"):
     prediction = model.predict([[day_input]])
     st.write(f"Predicted cases for day {day_input}: {int(prediction[0])}")
-
-labels = ["Total Cases", "Active Cases", "Recovered", "Deaths"]
-values = [data["cases"], data["active"], data["recovered"], data["deaths"]]
-
-plt.figure(figsize=(8,5))
-plt.bar(labels, values, color=['blue', 'orange', 'green', 'red'])
-plt.xlabel("Category")
-plt.ylabel("Count")
-plt.title("COVID-19 Data for JAPAN")
-plt.show()
-
-import numpy as np
-
-# Generate random historical data
-np.random.seed(42)
-historical_cases = np.random.randint(30000, 70000, size=30)  # Last 30 days cases
-historical_deaths = np.random.randint(500, 2000, size=30)
-
-df_historical = pd.DataFrame({"cases": historical_cases, "deaths": historical_deaths})
-df_historical["day"] = range(1, 31)
-
-print(df_historical.head())
-
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-
-X = df_historical[["day"]]
-y = df_historical["cases"]
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-# Predict next day's cases
-next_day = np.array([[31]])
-predicted_cases = model.predict(next_day)
-print(f"Predicted cases for Day 31: {int(predicted_cases[0])}")
-
-import streamlit as st
-
-st.title("COVID-19 Cases Prediction-in JAPAN")
-st.write("Predicting COVID-19 cases for the next day based on historical data.")
-
-# User Input
-day_input = st.number_input("Enter day number (e.g., 31 for prediction)", min_value=1, max_value=100)
-
-if st.button("Predict"):
-    prediction = model.predict([[day_input]])
-    st.write(f"Predicted cases for day {day_input}: {int(prediction[0])}")
-
-
