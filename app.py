@@ -1,6 +1,6 @@
 import requests
 
-url = "https://disease.sh/v3/covid-19/countries/uk"
+url = "https://disease.sh/v3/covid-19/countries/japan"
 r = requests.get(url)
 data = r.json()
 
@@ -34,7 +34,7 @@ plt.figure(figsize=(8,5))
 plt.bar(labels, values, color=['blue', 'orange', 'green', 'red'])
 plt.xlabel("Category")
 plt.ylabel("Count")
-plt.title("COVID-19 Data for UK")
+plt.title("COVID-19 Data for JAPAN")
 plt.show()
 
 import numpy as np
@@ -67,7 +67,7 @@ print(f"Predicted cases for Day 31: {int(predicted_cases[0])}")
 
 import streamlit as st
 
-st.title("COVID-19 Cases Prediction-in UK")
+st.title("COVID-19 Cases Prediction-in JAPAN")
 st.write("Predicting COVID-19 cases for the next day based on historical data.")
 
 # User Input
