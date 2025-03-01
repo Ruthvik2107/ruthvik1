@@ -1,12 +1,12 @@
 import requests
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.svm import SVR
+import numpy as np
 import streamlit as st
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVR  # Support Vector Machine (SVR) for regression
 
-# Fetch data
+# Step 1: Fetch data from the API
 url = "https://disease.sh/v3/covid-19/countries/japan"
 r = requests.get(url)
 data = r.json()
@@ -24,9 +24,35 @@ covid_data = {
     "deathsPerMillion": data["deathsPerOneMillion"],
 }
 
-# Convert to Pandas DataFrame
+# Step 2: Convert to Pandas DataFrame
 df = pd.DataFrame([covid_data])
 print(df)
+
+# Step 3: Plot bar chart for current COVID-19 data
+labels = ["Total Cases", "Active Cases", "Recovered", "Deaths"]
+values = [data["cases"], data["active"], data["recovered"], data["deaths"]]
+plt.figure(figsize=(8,5))
+plt.bar(labels, values, color=['blue', 'orange', 'green', 'red'])
+plt.xlabel("Category")
+plt.ylabel("Count")
+plt.title("COVID-19 Data for JAPAN")
+plt.show()
+
+# Step 4: Generate random historical data for last 30 days (for illustration)
+np.random.seed(42)
+historical_cases = np.random.randint(30000, 70000, size=30)  # Last 30 days cases
+historical_deaths = np.random.randint(500, 2000, size=30)
+df_historical = pd.DataFrame({"cases": historical_cases, "deaths": historical_deaths})
+df_historical["day"] = range(1, 31)
+print(df_historical.head())
+
+# Step 5: Prepare data for training and testing
+X = df_historical[["day"]]  # Features (days)
+y = df_historical["cases"]  # Target (cases)
+
+# Split into training and testing sets
+X_train, X_
+
 
 # Generate random historical data
 np.random.seed(42)
