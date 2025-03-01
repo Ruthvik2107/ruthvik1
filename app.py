@@ -71,6 +71,20 @@ else:
     predicted_cases = svr.predict(next_day)
     st.write(f"Predicted cases for Day 31 using SVM: {int(predicted_cases[0])}")
 
+    # Visualize the predictions vs actual data for historical days
+    predicted_values = svr.predict(X)  # Predict values for all days in the dataset
+
+    # Plot the actual vs predicted cases
+    plt.figure(figsize=(10, 6))
+    plt.plot(df_historical["day"], df_historical["cases"], label="Actual Cases", color='blue', marker='o')
+    plt.plot(df_historical["day"], predicted_values, label="Predicted Cases", color='red', linestyle='--')
+    plt.xlabel("Day")
+    plt.ylabel("Number of Cases")
+    plt.title("Historical vs Predicted COVID-19 Cases in UK (SVM)")
+    plt.legend()
+    plt.grid(True)
+    st.pyplot(plt)
+
     # Streamlit interface for user input
     st.title("COVID-19 Cases Prediction for the UK")
     st.write("Predicting COVID-19 cases for the next day based on historical data.")
