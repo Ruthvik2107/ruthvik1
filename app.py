@@ -34,7 +34,7 @@ plt.figure(figsize=(8,5))
 plt.bar(labels, values, color=['blue', 'orange', 'green', 'red'])
 plt.xlabel("Category")
 plt.ylabel("Count")
-plt.title("COVID-19 Data for USA")
+plt.title("COVID-19 Data for UK")
 plt.show()
 
 import numpy as np
