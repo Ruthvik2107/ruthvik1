@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import streamlit as st
 from sklearn.model_selection import train_test_split
-from sklearn.svm import SVR  # Support Vector Machine (SVR) for regression
+from sklearn.svm import SVR  # Support Vector Machine for regression
 
 # Step 1: Fetch data from the API
 url = "https://disease.sh/v3/covid-19/countries/japan"
@@ -31,7 +31,7 @@ print(df)
 # Step 3: Plot bar chart for current COVID-19 data
 labels = ["Total Cases", "Active Cases", "Recovered", "Deaths"]
 values = [data["cases"], data["active"], data["recovered"], data["deaths"]]
-plt.figure(figsize=(8,5))
+plt.figure(figsize=(8, 5))
 plt.bar(labels, values, color=['blue', 'orange', 'green', 'red'])
 plt.xlabel("Category")
 plt.ylabel("Count")
@@ -62,7 +62,21 @@ next_day = np.array([[31]])  # Predict for day 31
 predicted_cases = model.predict(next_day)
 print(f"Predicted cases for Day 31: {int(predicted_cases[0])}")
 
-# Step 8: Streamlit UI for user interaction
+# Step 8: Visualize the historical data and predicted values
+predicted_values = model.predict(X)  # Predict values for all days in the dataset
+
+# Plot historical data vs predicted data
+plt.figure(figsize=(10,6))
+plt.plot(df_historical["day"], df_historical["cases"], label="Actual Cases", color='blue', marker='o')
+plt.plot(df_historical["day"], predicted_values, label="Predicted Cases", color='red', linestyle='--')
+plt.xlabel("Day")
+plt.ylabel("Number of Cases")
+plt.title("Historical vs Predicted COVID-19 Cases in Japan")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Step 9: Streamlit UI for user interaction
 st.title("COVID-19 Cases Prediction in JAPAN")
 st.write("Predicting COVID-19 cases for the next day based on historical data.")
 
